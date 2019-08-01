@@ -18,7 +18,7 @@ class App extends Component {
 
   sendMessage(app) {
     if ((app.keyCode === 13) || (app.target.id === "send")) {
-      var input = this.state.conversation + "You: " + this.state.inputValue + "\n\n";
+      var input = this.state.conversation + "👤 You: " + this.state.inputValue + "\n\n";
       var current_input = this.state.inputValue;
       this.setState({conversation: input});
       this.setState({inputValue: ""});
@@ -36,7 +36,7 @@ class App extends Component {
       }).then(function(res) {
         return res.json();
       }).then((data) => {
-        input = this.state.conversation + "Bot: " + data.response + "\n\n";
+        input = this.state.conversation + "🤖 Bot: " + data.response + "\n\n";
         this.setState({conversation: input});
         this.scrollDown();
       })
