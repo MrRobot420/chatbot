@@ -3,15 +3,11 @@ import './App.css';
 
 class App extends Component {
 
-  state;
-
   constructor(props) {
     super(props);
     this.state = {
       conversation: '',
       inputValue: '',
-      sender: 'user',
-      color: '#61dafb'
     }
     this.textArea = React.createRef();
   }
@@ -25,12 +21,12 @@ class App extends Component {
       this.scrollDown();
       console.log(`User typed: ${ input }`);
       const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
+      headers.append('Content-Type', 'application/json');   // IMPORTANT!
       fetch('http://localhost:5000/api', {
         method: "post",
         headers: headers,
         body: JSON.stringify({
-          userId: "12345",
+          userId: 12345,
           userQuery: current_input
         })
       }).then(function(res) {
@@ -52,7 +48,6 @@ class App extends Component {
     this.setState({
       inputValue: evt.target.value
     });
-    // console.log(this.state.inputValue);
   }
 
   render() {
@@ -69,7 +64,6 @@ class App extends Component {
       </div>
     );
   }
-  
 }
 
 export default App;
