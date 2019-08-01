@@ -3,6 +3,8 @@ import './App.css';
 
 class App extends Component {
 
+  state;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,16 +16,31 @@ class App extends Component {
   }
 
   sendMessage(app) {
-    var input = this.state.conversation + this.state.inputValue + "\n\n";
-    if (app.keyCode === 13) {
+    if ((app.keyCode === 13) || (app.target.id === "send")) {
+      var input = this.state.conversation + "You: " + this.state.inputValue + "\n\n";
+      var current_input = this.state.inputValue;
       this.setState({conversation: input});
       console.log(`User typed: ${ input }`);
-      // app.text
-    } else if (app.target.id === "send") {
-      this.setState({conversation: input});
-      console.log(`User typed: ${ this.state.inputValue }`);
-    }
-    
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      var response = fetch('http://localhost:5000/api', {
+        method: "post",
+        headers: headers,
+        body: JSON.stringify({
+          userId: "12345",
+          userQuery: current_input
+        })
+      }).then(function(res) {
+        console.log(res);
+        return res.json();
+      }).then((data) => {
+        input = this.state.conversation + "Bot: " + data.response + "\n\n";
+        this.setState({conversation: input});
+      })
+
+      
+    } 
   }
 
   updateInputValue(evt) {
